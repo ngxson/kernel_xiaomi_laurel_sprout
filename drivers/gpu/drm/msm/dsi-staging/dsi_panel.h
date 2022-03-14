@@ -244,9 +244,6 @@ struct dsi_panel {
 	int power_mode;
 	enum dsi_panel_physical_type panel_type;
 
-	bool doze_enabled;
-	enum dsi_doze_mode_type doze_mode;
-
 	struct brightness_alpha_pair *fod_dim_lut;
 	u32 fod_dim_lut_count;
 };
