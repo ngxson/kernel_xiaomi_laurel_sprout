@@ -53,11 +53,6 @@
 #define HBM_OFF_DIMMING_OFF				0x20
 #define HBM_OFF_DIMMING_ON				0x28
 
-#ifdef CONFIG_MACH_XIAOMI_F9S
-int _xiaomi_bl_lvl = 0;
-bool _xiaomi_fod_enable = 0;
-#endif
-
 enum dsi_dsc_ratio_type {
 	DSC_8BPC_8BPP,
 	DSC_10BPC_8BPP,
@@ -642,10 +637,6 @@ static int dsi_panel_update_backlight(struct dsi_panel *panel,
 
 	dsi = &panel->mipi_device;
 
-#ifdef CONFIG_MACH_XIAOMI_F9S
-	_xiaomi_bl_lvl = bl_lvl;
-#endif
-
 	if (bl_lvl == 0) {
             rc = dsi_panel_set_dimming_brightness(panel, HBM_OFF_DIMMING_OFF, bl_lvl);
             panel->skip_dimming_on = true;
@@ -686,10 +677,6 @@ static int dsi_panel_update_pwm_backlight(struct dsi_panel *panel,
 		pr_err("pwm device not found\n");
 		return -EINVAL;
 	}
-
-#ifdef CONFIG_MACH_XIAOMI_F9S
-	_xiaomi_bl_lvl = bl_lvl;
-#endif
 
 	period_ns = bl->pwm_period_usecs * NSEC_PER_USEC;
 	duty = bl_lvl * period_ns;
@@ -809,10 +796,6 @@ int dsi_panel_set_dimming_brightness(struct dsi_panel *panel, u8 dimming, u32 br
 						= (brightness >> 8)& 0xf;
 	((u8 *)panel->cur_mode->priv_info->cmd_sets[DSI_CMD_SET_DIMMING_DBV].cmds[1].msg.tx_buf)[2]
 						= brightness & 0xff;
-
-#ifdef CONFIG_MACH_XIAOMI_F9S
-	_xiaomi_fod_enable = (dimming == HBM_ON_DIMMING_ON || dimming == HBM_ON_DIMMING_OFF);
-#endif
 
 	rc = dsi_panel_tx_cmd_set(panel, DSI_CMD_SET_DIMMING_DBV);
 	if (rc)

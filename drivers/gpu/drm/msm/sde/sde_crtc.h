@@ -437,9 +437,6 @@ struct sde_crtc_state {
 	u32 padding_dummy;
 
 	struct sde_crtc_respool rp;
-#ifdef CONFIG_MACH_XIAOMI_F9S
-	struct sde_hw_dim_layer *fingerprint_dim_layer;
-#endif
 };
 
 enum sde_crtc_irq_state {
