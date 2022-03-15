@@ -848,11 +848,13 @@ int dsi_panel_set_fod_hbm(struct dsi_panel *panel, bool status)
 	return rc;
 }
 
+u32 fod_dim_bl_lvl;
 int dsi_panel_set_backlight(struct dsi_panel *panel, u32 bl_lvl)
 {
 	int rc = 0;
 	struct dsi_backlight_config *bl = &panel->bl_config;
 	usbchg_lcd_brightness = bl_lvl;
+	fod_dim_bl_lvl = bl_lvl;
 
 	if ((bl_lvl < bl->bl_min_level) && (bl_lvl != 0))
 		bl_lvl = bl->bl_min_level;
@@ -4634,6 +4636,7 @@ int dsi_panel_post_switch(struct dsi_panel *panel)
 	return rc;
 }
 
+extern bool is_dimlayer_hbm_enabled;
 int dsi_panel_enable(struct dsi_panel *panel)
 {
 	int rc = 0;
@@ -4655,6 +4658,7 @@ int dsi_panel_enable(struct dsi_panel *panel)
 	panel->fod_hbm_enabled = false;
 	panel->fod_backlight_flag = false;
 	panel->dimming_enabled = false;
+	dsi_panel_set_fod_hbm(panel, is_dimlayer_hbm_enabled);
 
 	mutex_unlock(&panel->panel_lock);
 	return rc;
