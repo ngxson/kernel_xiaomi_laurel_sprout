@@ -5507,7 +5507,7 @@ error:
 	return rc;
 }
 
-static ssize_t sysfs_fod_ui_read(struct device *dev,
+static ssize_t fod_ui_show(struct device *dev,
 	struct device_attribute *attr, char *buf)
 {
 	struct dsi_display *display;
@@ -5524,8 +5524,14 @@ static ssize_t sysfs_fod_ui_read(struct device *dev,
 	return snprintf(buf, PAGE_SIZE, "%d\n", status);
 }
 
+static ssize_t fod_ui_store(struct device *dev,
+	struct device_attribute *attr, const char *buf, size_t count)
+{
+	return 0;
+}
+
 bool is_dimlayer_hbm_enabled;
-static ssize_t sysfs_dimlayer_hbm_read(struct device *dev,
+static ssize_t dimlayer_hbm_show(struct device *dev,
 	struct device_attribute *attr, char *buf)
 {
 	struct dsi_display *display = dev_get_drvdata(dev);
@@ -5535,7 +5541,7 @@ static ssize_t sysfs_dimlayer_hbm_read(struct device *dev,
 	return snprintf(buf, PAGE_SIZE, "%d\n", is_dimlayer_hbm_enabled);
 }
 
-static ssize_t sysfs_dimlayer_hbm_write(struct device *dev,
+static ssize_t dimlayer_hbm_store(struct device *dev,
 	struct device_attribute *attr, const char *buf, size_t count)
 {
 	int ret = 0;
@@ -5550,13 +5556,8 @@ static ssize_t sysfs_dimlayer_hbm_write(struct device *dev,
 	return count;
 }
 
-static DEVICE_ATTR(dimlayer_hbm, 0664,
-			sysfs_dimlayer_hbm_read,
-			sysfs_dimlayer_hbm_write);
-
-static DEVICE_ATTR(fod_ui, 0444,
-			sysfs_fod_ui_read,
-			NULL);
+DEVICE_ATTR_RW(dimlayer_hbm);
+DEVICE_ATTR_RW(fod_ui);
 
 static struct attribute *display_fs_attrs[] = {
 	&dev_attr_fod_ui.attr,
