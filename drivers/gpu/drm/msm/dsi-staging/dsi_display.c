@@ -5556,8 +5556,8 @@ static ssize_t dimlayer_hbm_store(struct device *dev,
 	return count;
 }
 
-DEVICE_ATTR_RW(dimlayer_hbm);
-DEVICE_ATTR_RW(fod_ui);
+static DEVICE_ATTR(dimlayer_hbm, 0666, dimlayer_hbm_show, dimlayer_hbm_store);
+static DEVICE_ATTR(fod_ui, 0666, fod_ui_show, fod_ui_store);
 
 static struct attribute *display_fs_attrs[] = {
 	&dev_attr_fod_ui.attr,

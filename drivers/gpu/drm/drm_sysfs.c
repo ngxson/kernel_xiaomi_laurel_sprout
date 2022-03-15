@@ -343,6 +343,7 @@ static DEVICE_ATTR_RO(enabled);
 static DEVICE_ATTR_RO(dpms);
 static DEVICE_ATTR_RO(modes);
 static DEVICE_ATTR_RW(disp_param);
+static DEVICE_ATTR(disp_param, 0666, disp_param_show, disp_param_store);
 static DEVICE_ATTR_RW(acl);
 static DEVICE_ATTR_RO(white_read);
 
