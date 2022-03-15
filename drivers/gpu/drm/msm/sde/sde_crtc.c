@@ -5280,6 +5280,7 @@ static struct sde_hw_dim_layer* sde_crtc_setup_fod_dim_layer(
 	}
 
 	layer_stage = SDE_STAGE_0 + stage;
+	/*
 	if (layer_stage >= kms->catalog->mixer[0].sblk->maxblendstages) {
 		SDE_ERROR("Stage too large %u vs max %u\n", layer_stage,
 			kms->catalog->mixer[0].sblk->maxblendstages);
@@ -5290,16 +5291,17 @@ static struct sde_hw_dim_layer* sde_crtc_setup_fod_dim_layer(
 		SDE_ERROR("Max dim layers reached\n");
 		//goto error;
 	}
+	*/
 
 	alpha = xiaomi_alpha_lookup_tlb[fod_dim_bl_lvl];
 	//SDE_ERROR("FOD dim_layer bl_lvl %u alpha %u\n", fod_dim_bl_lvl, alpha);
 	dim_layer = &cstate->dim_layer[cstate->num_dim_layers];
-	dim_layer->flags = SDE_DRM_DIM_LAYER_INCLUSIVE;
+	dim_layer->flags = SDE_DRM_DIM_LAYER_EXCLUSIVE;
 	dim_layer->stage = layer_stage;
-	dim_layer->rect.x = 0;
-	dim_layer->rect.y = 0;
-	dim_layer->rect.w = mode->hdisplay;
-	dim_layer->rect.h = mode->vdisplay;
+	dim_layer->rect.x = 293;    // sensorLocationX
+	dim_layer->rect.y = 1356;   // sensorLocationY
+	dim_layer->rect.w = 134;    // sensorDiameter
+	dim_layer->rect.h = 134;    // sensorDiameter
 	dim_layer->color_fill =
 			(struct sde_mdss_color) {0, 0, 0, alpha};
 
